@@ -29,17 +29,17 @@ action "Create New Pull Request" {
 Environment variables include:
 
   - **BRANCH_PREFIX**: the prefix to filter to. If the branch doesn't start with the prefix, it will be ignored
-  - **PULL_REQUEST_BRANCH**: the branch to issue the pull request to. Defaults to master.
+  - **BASE_BRANCH**: the branch to issue the pull request to. Defaults to the repositores default branch.
   - **PULL_REQUEST_BODY**: the body for the pull request (optional)
   - **PULL_REQUEST_TITLE**: the title for the pull request  (optional)
   - **PULL_REQUEST_DRAFT**: should the pull request be a draft PR? (optional; unset defaults to `false`)
 
 ## Example use Case: Update Registry
 
-As an example, I created this action to be intended for an 
-[organizational static registry](https://www.github.com/singularityhub/registry-org) for container builds. 
-Specifically, you have modular repositories building container recipes, and then opening pull requests to the 
-registry to update it. 
+As an example, I created this action to be intended for an
+[organizational static registry](https://www.github.com/singularityhub/registry-org) for container builds.
+Specifically, you have modular repositories building container recipes, and then opening pull requests to the
+registry to update it.
 
  - the container collection content should be generated from a separate GitHub repository, including the folder structure (manifests, tags, collection README) that are expected.
  - the container collection metadata is pushed to a new branch on the registry repository, with namespace matching the GitHub repository, meaning that each GitHub repository always has a unique branch for its content.
