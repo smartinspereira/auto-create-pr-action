@@ -22,7 +22,7 @@ PULLS_URL="${REPO_URL}/pulls";
 # Helper Functions
 ################################################################################
 
-handle_last_exit_code() { if [[ "$1" != 0 ]]; then exit "$1" fi }
+# handle_last_exit_code() { if [[ "$1" != 0 ]]; then exit "$1" fi }
 
 check_credentials() {
 
@@ -71,7 +71,7 @@ create_pull_request() {
         DATA="{\"title\":\"${TITLE}\", \"body\":\"${BODY}\", \"base\":\"${TARGET}\", \"head\":\"${SOURCE}\", \"draft\":\"${DRAFT}\"}";
         curl -sSL -H "${AUTH_HEADER}" -H "${HEADER}" -X POST --data "${DATA}" ${PULLS_URL};
 
-        handle_last_exit_code "$?"
+        # handle_last_exit_code "$?"
     fi
 }
 
