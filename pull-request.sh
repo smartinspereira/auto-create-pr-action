@@ -22,6 +22,8 @@ PULLS_URL="${REPO_URL}/pulls";
 # Helper Functions
 ################################################################################
 
+handle_last_exit_code() { if [[ "$1" != 0 ]]; then exit "$1" fi }
+
 check_credentials() {
 
     if [[ -z "${GITHUB_TOKEN}" ]]; then
@@ -69,7 +71,7 @@ create_pull_request() {
         DATA="{\"title\":\"${TITLE}\", \"body\":\"${BODY}\", \"base\":\"${TARGET}\", \"head\":\"${SOURCE}\", \"draft\":\"${DRAFT}\"}";
         curl -sSL -H "${AUTH_HEADER}" -H "${HEADER}" -X POST --data "${DATA}" ${PULLS_URL};
 
-        echo $?;
+        handle_last_exit_code "$?"
     fi
 }
 
@@ -77,7 +79,7 @@ main () {
     check_events_json;
 
     # BRANCH_PREFIX
-    if [ -z "${BRANCH_PREFIX}" ]; then
+    if [[ -z "${BRANCH_PREFIX}" ]]; then
         echo "no BRANCH_PREFIX is set";
         BRANCH_PREFIX="";
     else
@@ -85,14 +87,14 @@ main () {
     fi
 
     # BASE_BRANCH
-    if [ -z "${BASE_BRANCH}" ]; then
+    if [[ -z "${BASE_BRANCH}" ]]; then
         echo "no BASE_BRANCH is set";
         BASE_BRANCH=$(jq -r ".repository.default_branch" "$GITHUB_EVENT_PATH");
     fi
     echo "using BASE_BRANCH ${BASE_BRANCH}";
 
     # PULL_REQUEST_DRAFT
-    if [ -z "${PULL_REQUEST_DRAFT}" ]; then
+    if [[ -z "${PULL_REQUEST_DRAFT}" ]]; then
         echo "no PULL_REQUEST_DRAFT set";
         PULL_REQUEST_DRAFT="false";
     else
@@ -113,7 +115,7 @@ main () {
             check_credentials;
 
             # PULL_REQUEST_BODY
-            if [ -z "${PULL_REQUEST_BODY}" ]; then
+            if [[ -z "${PULL_REQUEST_BODY}" ]]; then
                 echo "no PULL_REQUEST_BODY set";
                 PULL_REQUEST_BODY="";
             else
@@ -121,7 +123,7 @@ main () {
             fi
 
             # PULL_REQUEST_TITLE
-            if [ -z "${PULL_REQUEST_TITLE}" ]; then
+            if [[ -z "${PULL_REQUEST_TITLE}" ]]; then
                 echo "no PULL_REQUEST_TITLE set";
                 PULL_REQUEST_TITLE="${HEAD_BRANCH}";
             fi
